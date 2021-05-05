@@ -85,6 +85,11 @@ class MainActivity : AppCompatActivity() {
         // 执行前赋予可执行权限
         exeFile.setExecutable(true)
 
+        var file_7z = File("${filesDir.absolutePath}/files.7z")
+        if(file_7z.exists()){
+            file_7z.delete()
+        }
+
         var cmd = "${exeFile.absolutePath} a ${filesDir.absolutePath}/files.7z ${filesDir.absolutePath} -mx=9 -t7z"
         Log.i(TAG, "压缩命令 : $cmd")
 
@@ -130,6 +135,12 @@ class MainActivity : AppCompatActivity() {
         // 执行前赋予可执行权限
         exeFile.setExecutable(true)
 
+        // 删除解压目录
+        var unzip_file = File("${filesDir.absolutePath}/unzip_file")
+        if(unzip_file.exists()){
+            recursionDeleteFile(unzip_file)
+        }
+
         var cmd = "${exeFile.absolutePath} x ${filesDir.absolutePath}/files.7z -o${filesDir.absolutePath}/unzip_file"
         Log.i(TAG, "解压缩命令 : $cmd")
 
@@ -148,5 +159,21 @@ class MainActivity : AppCompatActivity() {
 
         val exitValue = process.exitValue()
         Log.i(TAG, "解压缩文件 , 执行完毕 , exitValue = $exitValue")
+    }
+
+    /**
+     * 递归删除文件
+     */
+    fun recursionDeleteFile(file: File) {
+        if (file.isDirectory) {
+            // 如果是目录 , 则递归删除
+            file.listFiles().forEach {
+                // ForEach 循环删除目录
+                recursionDeleteFile(it)
+            }
+        } else {
+            // 如果是文件直接删除
+            file.delete()
+        }
     }
 }
