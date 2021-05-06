@@ -9,6 +9,10 @@ import java.io.*
 class MainActivity : AppCompatActivity() {
     companion object {
         val TAG = "MainActivity"
+
+        init {
+            System.loadLibrary("native-lib")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         compress7z()
 
         uncompress7z()
+
+        executeCmd("7z")
     }
 
     /**
@@ -176,4 +182,6 @@ class MainActivity : AppCompatActivity() {
             file.delete()
         }
     }
+
+    external fun executeCmd(cmd: String): Unit
 }
