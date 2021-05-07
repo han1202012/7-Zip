@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         uncompress7z()
 
-        executeCmd("7z")
+        compress7zJni()
     }
 
     /**
@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                 break
             }
         }
+        reader.close()
 
         val exitValue = process.exitValue()
         Log.i(TAG, "压缩文件 , 执行完毕 , exitValue = $exitValue")
@@ -162,6 +163,7 @@ class MainActivity : AppCompatActivity() {
                 break
             }
         }
+        reader.close()
 
         val exitValue = process.exitValue()
         Log.i(TAG, "解压缩文件 , 执行完毕 , exitValue = $exitValue")
@@ -182,6 +184,29 @@ class MainActivity : AppCompatActivity() {
             file.delete()
         }
     }
+
+    /**
+     * 使用 7zr 进行压缩
+     */
+    fun compress7zJni() {
+        // /data/user/0/kim.hsl.a7_zip/files/7zr
+        var exeFile = File(filesDir, "7zr")
+        // 执行前赋予可执行权限
+        exeFile.setExecutable(true)
+
+        // 删除原有的压缩文件, 如果存在
+        var file_7z = File("${filesDir.absolutePath}/files_jni.7z")
+        if(file_7z.exists()){
+            file_7z.delete()
+        }
+
+        var cmd = "${exeFile.absolutePath} a ${filesDir.absolutePath}/files_jni.7z ${filesDir.absolutePath} -mx=9 -t7z"
+        Log.i(TAG, "Jni 压缩命令 : $cmd")
+
+        // 调用 jni 方法处理压缩文件
+        executeCmd(cmd)
+    }
+
 
     external fun executeCmd(cmd: String): Unit
 }
