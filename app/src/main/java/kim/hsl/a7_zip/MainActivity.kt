@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         // /data/user/0/kim.hsl.a7_zip/files/7zr
         var exeFile = File(filesDir, "7zr")
+        // 执行前赋予可执行权限
+        exeFile.setExecutable(true)
         Log.i(TAG, "filesDir = ${filesDir.absolutePath} , exeFile = ${exeFile.absolutePath}")
 
         // 查看该文件是否存在, 如果存在设置该文件可执行

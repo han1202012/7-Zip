@@ -58,7 +58,8 @@ android {
 
         // 配置 CMake 构建脚本 CMakeLists.txt 脚本路径
         cmake {
-            path "src/main/cpp/CMakeLists.txt"
+            //path "src/main/cpp/CMakeLists.txt"
+            path "src/main/staticLibs/CMakeLists.txt"
             version "3.10.2"
         }
 

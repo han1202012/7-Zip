@@ -89,10 +89,10 @@ Java_kim_hsl_a7_1zip_MainActivity_executeCmd(JNIEnv* env, jobject thiz, jstring 
     }
 
     // 量参数传入 main 函数
-    main(argCount, args);
+    int result = main(argCount, args);
 
     // 释放 Java 字符串以及 C 字符串
     env->ReleaseStringUTFChars(cmd, cmd_java);
 
-    LOGI("7zr 命令执行完毕 !");
+    LOGI("7zr 命令执行完毕 result = %d !", result);
 }
